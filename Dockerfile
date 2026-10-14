@@ -4,13 +4,7 @@ ENV UV_INSTALL_DIR="/uv"
 ENV PATH="/uv:/root/.local/bin:$PATH"
 
 RUN apk add --no-cache \
-    bash \
-    curl \
-    g++ \
-    gcc \
-    libffi-dev \
-    make \
-    musl-dev
+    bash curl g++ gcc libffi-dev make musl-dev
 
 RUN curl -LsSf https://astral.sh/uv/install.sh | sh
 
@@ -20,6 +14,11 @@ WORKDIR /tmp
 COPY pyproject.toml uv.lock install_unrar.sh ./
 
 RUN uv sync --no-cache --locked && \
+    uv pip uninstall --python /tmp/.venv/bin/python pyrogram && \
+    uv pip install --python /tmp/.venv/bin/python \
+        --no-deps --force-reinstall pyrofork==2.3.61 && \
+    /tmp/.venv/bin/python -c \
+        "import pyrogram.enums as e; assert hasattr(e, 'MessageOriginType'), 'MessageOriginType missing'; print('Pyrofork enum check OK')" && \
     bash /tmp/install_unrar.sh
 
 
@@ -40,16 +39,8 @@ LABEL org.opencontainers.image.url="https://github.com/EDM115/unzip-bot"
 LABEL org.opencontainers.image.version="${VERSION}"
 
 RUN apk add --no-cache \
-    bash \
-    cgroup-tools \
-    cpulimit \
-    curl \
-    ffmpeg \
-    git \
-    tar \
-    tzdata \
-    util-linux \
-    zstd \
+    bash cgroup-tools cpulimit curl ffmpeg git tar tzdata \
+    util-linux zstd \
     && apk add --no-cache 7zip \
        --repository=https://dl-cdn.alpinelinux.org/alpine/edge/main \
     && curl -LsSf https://astral.sh/uv/install.sh | sh \
@@ -67,7 +58,7 @@ RUN install -m 755 /tmp/unrar /usr/local/bin/unrar \
        https://github.com/EDM115/unzip-bot.git /app
 
 RUN /venv/bin/python -c \
-    "import pyrogram, pyrogram.enums; print('Pyrogram path:', pyrogram.__file__); print('MessageOriginType available:', hasattr(pyrogram.enums, 'MessageOriginType'))"
+    "import pyrogram.enums as e; assert hasattr(e, 'MessageOriginType'), 'MessageOriginType missing'; print('Pyrofork enum check OK')"
 
 COPY .env /app/.env
 
