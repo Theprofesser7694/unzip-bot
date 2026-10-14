@@ -4,7 +4,7 @@ import psutil
 
 
 class Config:
-    APP_ID = int(os.environ.get("34933453"))
+    APP_ID = int(os.environ.get("34933453")
     API_HASH = os.environ.get("a977eaf04f6cf64805f3eb631b70aa56")
     BASE_LANGUAGE = os.environ.get("BASE_LANGUAGE", default="en")
     BOT_TOKEN = os.environ.get("8385245993:AAEMoCzlMzLVaGN0BfKFg9ls40BIt6QYch8")
