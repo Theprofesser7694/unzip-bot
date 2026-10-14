@@ -4,8 +4,8 @@ import psutil
 
 
 class Config:
-    APP_ID = int(os.environ.get("30942772"))
-    API_HASH = os.environ.get("05cbcbb0b7e704be4c1a3cd963bbb6fe")
+    APP_ID = int(os.environ.get("34933453"))
+    API_HASH = os.environ.get("a977eaf04f6cf64805f3eb631b70aa56")
     BASE_LANGUAGE = os.environ.get("BASE_LANGUAGE", default="en")
     BOT_TOKEN = os.environ.get("8385245993:AAEMoCzlMzLVaGN0BfKFg9ls40BIt6QYch8")
     BOT_THUMB = f"{os.path.dirname(__file__)}/bot_thumb.jpg"
